@@ -5,4 +5,34 @@
 #iptables -t nat -A POSTROUTING -o eth0.2 -j MASQUERADE
 #iptables -A FORWARD -d 192.168.1.0/24 -j DROP
 
+#Copy local routes only from table main 254 to table 110
+ip route show table 254 | grep -Ev ^default | grep -Ev ^blackhole | while read ROUTE ; do
+ip route add table 110 $ROUTE
+done
+
+#First evaluate local routes
+ip rule add from all lookup 110 pref 3
+
+#Private routes to OLSR table
+ip rule add to 10.0.0.0/8 table 111 pref 4
+ip rule add to 172.16.0.0/12 table 111 pref 4
+ip rule add to 192.168.0.0/16 table 111 pref 4
+
+#Ninux IP Addresses to OLSR table
+ip rule add to 176.62.53.0/24 table 111 pref 4
+ip rule add from 176.62.53.0/24 table 111 pref 4
+
+#Lookup default route first from user and then from OLSR
+ip rule add from all lookup 254 pref 5
+ip rule add from all lookup 112 pref 6
+
+#Blackhole private aggregates
+ip route add blackhole 10.0.0.0/8 table 254
+ip route add blackhole 172.16.0.0/12 table 254
+ip route add blackhole 192.168.0.0/16 table 254
+
+#Blackhole Ninux aggregate
+ip route add blackhole 176.62.53.0/24 table 254
+
+
 exit 0

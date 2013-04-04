@@ -1,0 +1,3 @@
+uci set olsrd.@olsrd[0].RtTable=111
+uci set olsrd.@olsrd[0].RtTableDefault=112
+uci commit

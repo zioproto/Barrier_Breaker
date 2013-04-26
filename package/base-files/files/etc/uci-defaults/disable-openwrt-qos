@@ -1,0 +1,4 @@
+#!/bin/sh
+/etc/init.d/qos stop
+/etc/init.d/qos disable
+exit 0

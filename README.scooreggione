@@ -1,0 +1,12 @@
+Welcome to Scooreggione, a Attitude Adjustment OpenWRT with some trivial stuff for Ninux.org
+
+Find latest docs here http://wiki.ninux.org/FirmwareScooreggione (maybe in Italian language)
+
+to compile
+
+./script/feeds update
+./script/feeds install -a
+make
+
+the .config file is already shipped in this git repository
+

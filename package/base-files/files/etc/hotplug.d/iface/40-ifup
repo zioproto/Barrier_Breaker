@@ -1,0 +1,10 @@
+if [ "$ACTION" = "ifup" ] ; then
+#Copy local routes only from table main 254 to table 110
+ip route show table 254 | grep -Ev ^default | grep -Ev ^blackhole | while read ROUTE ; do
+MASK=`echo "${ROUTE}" | awk '{print $1}' | awk -F/ '{print $2}'`
+if [ "$MASK" -ne 16 ] ; then
+ip route add table 110 $ROUTE
+fi
+done
+fi
+

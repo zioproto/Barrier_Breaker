@@ -1,0 +1,88 @@
+#!/bin/sh /etc/rc.common
+
+#Copyright (C) 2013 Ninux.org
+
+START=95
+STOP=10
+
+configureNetwork()
+{
+	local TimeZone="CET-1CEST,M3.5.0,M10.5.0/3"
+	uci set system.@system[0].hostname=New_Device
+	uci set system.@system[0].timezone=$TimeZone
+	uci del system.ntp
+	uci set system.ntp=timeserver
+	uci set system.ntp.enable_server=1
+	uci set system.ntp.server=timeserver.ninux.org
+
+	rm -f /etc/config/wireless
+	wifi detect > /etc/config/wireless
+	config_load wireless
+	config_foreach del_wifi_iface wifi-iface
+
+	config_load network
+	config_foreach del_interface interface
+
+	uci set network.loopback=interface
+	uci set network.loopback.ifname=lo
+	uci set network.loopback.proto=static
+	uci set network.loopback.ipaddr="127.0.0.1"
+	uci set network.loopback.netmask="255.0.0.0"
+	uci set network.loopback.ip6addr="0::1/128"
+
+	uci set network.lan=interface
+	uci set network.lan.proto=static
+	uci set network.lan.type=bridge
+	uci set network.lan.ipaddr=192.168.1.1
+	uci set network.lan.netmask=255.255.255.0
+	uci add_list network.lan.ifname=eth0
+
+	uci set network.backbone=interface
+	uci set network.backbone.proto=static
+	uci set network.backbone.ipaddr=172.16.1.1
+	uci set network.backbone.netmask=255.255.0.0
+	uci add_list network.backbone.ifname=wlan0
+
+	wifidevice=$(uci show wireless | awk 'BEGIN { FS = "." };/wifi-device/{print $2}' | cut -d "=" -f1)
+
+	uci set wireless.$wifidevice.disabled=0
+	uci set wireless.$wifidevice.htmode=HT40+
+	uci set wireless.$wifidevice.noscan=1
+
+	uci set wireless.@wifi-iface[0]=wifi-iface
+	uci set wireless.@wifi-iface[0].device=$wifidevice
+	uci set wireless.@wifi-iface[0].network=backbone
+	uci set wireless.@wifi-iface[0].mode=sta
+	uci set wireless.@wifi-iface[0].ssid=ninux.org
+	uci set wireless.@wifi-iface[0].encryption=none
+
+	uci commit network
+	uci commit wireless
+	uci commit system
+	echo "1" > /etc/nnx
+}
+
+start()
+{
+	startup=$(cat /etc/nnx)
+	[ "$startup" -eq "0" ] &&
+	{
+		sleep 61s
+		configureNetwork
+		sleep 2s
+		reboot
+		return 0
+	}
+	[ "$startup" -eq "1" ] &&
+	{
+		return 0
+	}
+}
+
+restart()
+{
+	stop
+	sleep 2s
+	start
+}
+

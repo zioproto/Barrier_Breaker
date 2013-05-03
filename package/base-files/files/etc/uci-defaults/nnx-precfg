@@ -1,3 +1,54 @@
-#!/bin/sh
-/etc/init.d/ninux start
-exit 0
+#!/bin/sh /etc/rc.common
+
+#Copyright (C) 2013 Ninux.org
+
+configureNetwork()
+{
+	local TimeZone="CET-1CEST,M3.5.0,M10.5.0/3"
+	uci set system.@system[0].hostname=Scooreggione
+	uci set system.@system[0].timezone=$TimeZone
+	uci del system.ntp
+	uci set system.ntp=timeserver
+	uci set system.ntp.enable_server=1
+	uci set system.ntp.server=timeserver.ninux.org
+
+	uci del network.lan.type
+
+	uci set network.backbone=interface
+	uci set network.backbone.proto=static
+	uci set network.backbone.ipaddr=172.16.1.1
+	uci set network.backbone.netmask=255.255.0.0
+	uci set network.backbone.dns=8.8.8.8
+	uci add_list network.backbone.ifname=wlan0
+	uci set network.wan.proto=static
+
+	wifidevice=$(uci show wireless | awk 'BEGIN { FS = "." };/wifi-device/{print $2}' | cut -d "=" -f1)
+
+	uci set wireless.$wifidevice.disabled=0
+	uci set wireless.$wifidevice.noscan=1
+	uci set wireless.$wifidevice.distance=1000
+
+	uci set wireless.@wifi-iface[0]=wifi-iface
+	uci set wireless.@wifi-iface[0].device=$wifidevice
+	uci set wireless.@wifi-iface[0].network=backbone
+	uci set wireless.@wifi-iface[0].mode=sta
+	uci set wireless.@wifi-iface[0].ssid=ninux.org
+	uci set wireless.@wifi-iface[0].encryption=none
+
+	uci commit network
+	uci commit wireless
+	uci commit system
+	echo "1" > /etc/config/ninux
+}
+
+startup=$(cat /etc/config/ninux)
+[ "$startup" -eq "0" ] &&
+{
+	configureNetwork
+	return 0
+}
+[ "$startup" -eq "1" ] &&
+{
+	return 0
+}
+

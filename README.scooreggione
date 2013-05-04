@@ -4,8 +4,8 @@ Find latest docs here http://wiki.ninux.org/FirmwareScooreggione (maybe in Itali
 
 to compile start with:
 
-   ./script/feeds update
-   ./script/feeds install -a
+   ./scripts/feeds update
+   ./scripts/feeds install -a
 
 the .config file is already shipped in this git repository
 at this point after the feed update and install  the .config file committed in the repository will have local changes

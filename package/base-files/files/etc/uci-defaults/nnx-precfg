@@ -42,6 +42,10 @@ configureNetwork()
 }
 
 startup=$(cat /etc/config/ninux)
+
+# if ninux file do not exist then do nothing
+test $startup || exit 0
+
 [ "$startup" -eq "0" ] &&
 {
 	configureNetwork

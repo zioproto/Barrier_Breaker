@@ -19,7 +19,7 @@ configureNetwork()
 	uci set network.backbone.ipaddr=172.16.1.1
 	uci set network.backbone.netmask=255.255.0.0
 	uci set network.backbone.dns=8.8.8.8
-	uci add_list network.backbone.ifname=wlan0
+	uci set network.backbone.ifname=wlan0
 	uci set network.wan.proto=static
 
 	wifidevice=$(uci show wireless | awk 'BEGIN { FS = "." };/wifi-device/{print $2}' | cut -d "=" -f1)

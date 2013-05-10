@@ -16,6 +16,7 @@ PKG_RELEASE:=156
 PKG_FILE_DEPENDS:=$(PLATFORM_DIR)/ $(GENERIC_PLATFORM_DIR)/base-files/
 PKG_BUILD_DEPENDS:=opkg/host
 
+include $(INCLUDE_DIR)/ninux.mk
 include $(INCLUDE_DIR)/package.mk
 
 ifneq ($(DUMP),1)
@@ -107,6 +108,14 @@ define Package/base-files/install
 			$(CP) $(PLATFORM_SUBDIR)/$(PROFILE)/base-files/* $(1)/; \
 		fi \
 	)
+
+	#ninux firmware version
+	$(SED) 's,%C,$(NINUX_DIST),g' -e 's,%R,$(NINUX_VERSION),g' $(1)/etc/banner
+	$(SED) 's,%N,$(NINUX_NICK),g' \
+		$(1)/etc/banner \
+		$(1)/etc/openwrt_version \
+		$(1)/etc/openwrt_release \
+		$(1)/etc/ninux_version
 
 	$(VERSION_SED) \
 		$(1)/etc/banner \

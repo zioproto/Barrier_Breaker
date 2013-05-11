@@ -48,4 +48,7 @@ ip route add blackhole 192.168.0.0/16 table 114
 #Blackhole Ninux aggregate
 ip route add blackhole 176.62.53.0/24 table 114
 
+#Start olsrd v6
+olsrd -f /etc/config/olsrd6.conf -d 0
+
 exit 0

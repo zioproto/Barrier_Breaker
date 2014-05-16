@@ -51,4 +51,8 @@ ip route add blackhole 176.62.53.0/24 table 114
 #Start olsrd v6
 olsrd -f /etc/config/olsrd6.conf -d 0
 
+#MTU Clamping
+iptables -A FORWARD -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+ip6tables -I FORWARD -p tcp --syn  -j TCPMSS --clamp-mss-to-pmtu
+
 exit 0

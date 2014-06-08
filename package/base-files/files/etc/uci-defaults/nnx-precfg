@@ -35,9 +35,34 @@ configureNetwork()
 	uci set wireless.@wifi-iface[0].ssid=ninux.org
 	uci set wireless.@wifi-iface[0].encryption=none
 
+	uci set olsrd4.@olsrd[0]=olsrd
+	uci set olsrd4.@LoadPlugin[0]=LoadPlugin
+	uci set olsrd4.@LoadPlugin[0].library=olsrd_arprefresh.so.0.1
+	uci set olsrd4.@LoadPlugin[1]=LoadPlugin
+	uci set olsrd4.@LoadPlugin[1].library=olsrd_nameservice.so.0.3
+	uci set olsrd4.@LoadPlugin[2]=LoadPlugin
+	uci set olsrd4.@LoadPlugin[2].library=olsrd_txtinfo.so.0.1
+	uci set olsrd4.@LoadPlugin[2].accept=127.0.0.1
+	uci set olsrd4.@Interface[0]=Interface
+	uci set olsrd4.@Interface[0].interface=lan backbone
+	uci set olsrd6.@olsrd[0]=olsrd
+	uci set olsrd6.@LoadPlugin[0]=LoadPlugin
+	uci set olsrd6.@LoadPlugin[0].library=olsrd_arprefresh.so.0.1
+	uci set olsrd6.@LoadPlugin[1]=LoadPlugin
+	uci set olsrd6.@LoadPlugin[1].library=olsrd_nameservice.so.0.3
+	uci set olsrd6.@LoadPlugin[2]=LoadPlugin
+	uci set olsrd6.@LoadPlugin[2].library=olsrd_txtinfo.so.0.1
+	uci set olsrd6.@LoadPlugin[2].accept=::1
+	uci set olsrd6.@LoadPlugin[2].port=2007
+	uci set olsrd6.@Interface[0]=Interface
+	uci set olsrd6.@Interface[0].interface=lan backbone
+
 	uci commit network
 	uci commit wireless
 	uci commit system
+	uci commit olsrd4
+	uci commit olsrd6
+
 	echo "1" > /etc/config/ninux
 }
 

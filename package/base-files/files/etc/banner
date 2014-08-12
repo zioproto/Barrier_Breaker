@@ -6,6 +6,11 @@
  |__|__||__||__|__||_____|/_/\_\|_||_____||__|  |___  |
   n e t w o r k  u n d e r  e x p e r i m e n t |_____|
 
+Attenzione. Questo firmware contiene delle chiavi SSH
+autorizzate per l'accesso nel file:
+/etc/dropbear/authorized_keys
+
+Per rimuoverle: "rm /etc/dropbear/authorized_keys"
 
   _______                     ________        __
  |       |.-----.-----.-----.|  |  |  |.----.|  |_

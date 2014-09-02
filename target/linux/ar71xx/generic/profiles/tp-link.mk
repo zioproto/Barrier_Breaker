@@ -343,3 +343,14 @@ define Profile/TLWR2543/Description
 	Package set optimized for the TP-LINK TL-WR2543N/ND.
 endef
 $(eval $(call Profile,TLWR2543))
+
+define Profile/TLWA7210NV2
+ NAME:=TP-LINK TL-WA7210N v2
+ PACKAGES:=
+endef
+
+define Profile/TLWA7210NV2/Description
+Package set optimized for the TP-LINK TL-WA7210N v2.
+endef
+
+$(eval $(call Profile,TLWA7210NV2))

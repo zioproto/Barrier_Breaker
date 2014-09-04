@@ -1,6 +1,6 @@
 --- a/arch/mips/ath79/machtypes.h
 +++ b/arch/mips/ath79/machtypes.h
-@@ -16,22 +16,144 @@
+@@ -16,22 +16,145 @@
  
  enum ath79_mach_type {
  	ATH79_MACH_GENERIC = 0,
@@ -86,6 +86,7 @@
 +	ATH79_MACH_TL_MR3220_V2,	/* TP-LINK TL-MR3220 v2 */
 +	ATH79_MACH_TL_MR3420,		/* TP-LINK TL-MR3420 */
 +	ATH79_MACH_TL_MR3420_V2,	/* TP-LINK TL-MR3420 v2 */
++	ATH79_MACH_TL_WA7210N_V2,       /* TP-LINK TL-WA7210N v2 */
 +	ATH79_MACH_TL_WA750RE,		/* TP-LINK TL-WA750RE */
 +	ATH79_MACH_TL_WA7510N_V1,	/* TP-LINK TL-WA7510N v1*/
 +	ATH79_MACH_TL_WA850RE,		/* TP-LINK TL-WA850RE */

@@ -1,6 +1,6 @@
 --- a/arch/mips/ath79/machtypes.h
 +++ b/arch/mips/ath79/machtypes.h
-@@ -16,22 +16,145 @@
+@@ -16,22 +16,144 @@
  
  enum ath79_mach_type {
  	ATH79_MACH_GENERIC = 0,
@@ -86,7 +86,6 @@
 +	ATH79_MACH_TL_MR3220_V2,	/* TP-LINK TL-MR3220 v2 */
 +	ATH79_MACH_TL_MR3420,		/* TP-LINK TL-MR3420 */
 +	ATH79_MACH_TL_MR3420_V2,	/* TP-LINK TL-MR3420 v2 */
-+	ATH79_MACH_TL_WA7210N_V2,       /* TP-LINK TL-WA7210N v2 */
 +	ATH79_MACH_TL_WA750RE,		/* TP-LINK TL-WA750RE */
 +	ATH79_MACH_TL_WA7510N_V1,	/* TP-LINK TL-WA7510N v1*/
 +	ATH79_MACH_TL_WA850RE,		/* TP-LINK TL-WA850RE */
@@ -210,13 +209,13 @@
  config ATH79_MACH_AP121
  	bool "Atheros AP121 reference board"
  	select SOC_AR933X
-@@ -9,64 +64,746 @@ config ATH79_MACH_AP121
- 	select ATH79_DEV_GPIO_BUTTONS
- 	select ATH79_DEV_LEDS_GPIO
+@@ -11,62 +66,744 @@ config ATH79_MACH_AP121
  	select ATH79_DEV_M25P80
--	select ATH79_DEV_USB
-+	select ATH79_DEV_USB
-+	select ATH79_DEV_WMAC
+ 	select ATH79_DEV_USB
+ 	select ATH79_DEV_WMAC
+-	help
+-	  Say 'Y' here if you want your kernel to support the
+-	  Atheros AP121 reference board.
 +	help
 +	  Say 'Y' here if you want your kernel to support the
 +	  Atheros AP121 reference board.
@@ -593,16 +592,6 @@
 +	select ATH79_DEV_USB
 +	select ATH79_DEV_WMAC
 +
-+config ATH79_MACH_TL_WA7210N_V2
-+	bool "TP-LINK TL-WA7210N v2 support"
-+	select SOC_AR933X
-+	select ATH79_DEV_ETH
-+	select ATH79_DEV_GPIO_BUTTONS
-+	select ATH79_DEV_LEDS_GPIO
-+	select ATH79_DEV_M25P80
-+	select ATH79_DEV_USB
-+	select ATH79_DEV_WMAC
-+
 +config ATH79_MACH_WNR2000
 +	bool "NETGEAR WNR2000 board support"
 +	select SOC_AR913X
@@ -689,13 +678,8 @@
 +	select ATH79_DEV_GPIO_BUTTONS
 +	select ATH79_DEV_LEDS_GPIO
 +	select ATH79_DEV_M25P80
- 	select ATH79_DEV_WMAC
--	help
--	  Say 'Y' here if you want your kernel to support the
--	  Atheros AP121 reference board.
- 
--config ATH79_MACH_AP136
--	bool "Atheros AP136/AP135 reference board"
++	select ATH79_DEV_WMAC
++
 +config ATH79_MACH_EAP7660D
 +	bool "Senao EAP7660D support"
 +	select SOC_AR71XX
@@ -706,20 +690,14 @@
 +
 +config ATH79_MACH_ARCHER_C7
 +	bool "TP-LINK Archer C7 board support"
- 	select SOC_QCA955X
++	select SOC_QCA955X
 +	select ATH79_DEV_ETH
- 	select ATH79_DEV_GPIO_BUTTONS
- 	select ATH79_DEV_LEDS_GPIO
--	select ATH79_DEV_NFC
- 	select ATH79_DEV_SPI
- 	select ATH79_DEV_USB
- 	select ATH79_DEV_WMAC
--	help
--	  Say 'Y' here if you want your kernel to support the
--	  Atheros AP136 or AP135 reference boards.
- 
--config ATH79_MACH_AP81
--	bool "Atheros AP81 reference board"
++	select ATH79_DEV_GPIO_BUTTONS
++	select ATH79_DEV_LEDS_GPIO
++	select ATH79_DEV_SPI
++	select ATH79_DEV_USB
++	select ATH79_DEV_WMAC
++
 +config ATH79_MACH_TL_MR11U
 +	bool "TP-LINK TL-MR11U/TL-MR3040 support"
 +	select SOC_AR933X
@@ -729,17 +707,27 @@
 +	select ATH79_DEV_M25P80
 +	select ATH79_DEV_USB
 +	select ATH79_DEV_WMAC
-+
+ 
+-config ATH79_MACH_AP136
+-	bool "Atheros AP136/AP135 reference board"
+-	select SOC_QCA955X
 +config ATH79_MACH_TL_MR13U
 +	bool "TP-LINK TL-MR13U support"
 +	select SOC_AR933X
 +	select ATH79_DEV_ETH
-+	select ATH79_DEV_GPIO_BUTTONS
-+	select ATH79_DEV_LEDS_GPIO
+ 	select ATH79_DEV_GPIO_BUTTONS
+ 	select ATH79_DEV_LEDS_GPIO
+-	select ATH79_DEV_NFC
+-	select ATH79_DEV_SPI
 +	select ATH79_DEV_M25P80
-+	select ATH79_DEV_USB
-+	select ATH79_DEV_WMAC
-+
+ 	select ATH79_DEV_USB
+ 	select ATH79_DEV_WMAC
+-	help
+-	  Say 'Y' here if you want your kernel to support the
+-	  Atheros AP136 or AP135 reference boards.
+ 
+-config ATH79_MACH_AP81
+-	bool "Atheros AP81 reference board"
 +config ATH79_MACH_TL_MR3020
 +	bool "TP-LINK TL-MR3020 support"
 +	select SOC_AR933X
@@ -767,6 +755,16 @@
 +	select ATH79_DEV_GPIO_BUTTONS
 +	select ATH79_DEV_LEDS_GPIO
 +	select ATH79_DEV_M25P80
++	select ATH79_DEV_WMAC
++
++config ATH79_MACH_TL_WA7210N_V2
++	bool "TP-LINK TL-WA7210N v2 support"
++	select SOC_AR933X
++	select ATH79_DEV_ETH
++	select ATH79_DEV_GPIO_BUTTONS
++	select ATH79_DEV_LEDS_GPIO
++	select ATH79_DEV_M25P80
++	select ATH79_DEV_USB
 +	select ATH79_DEV_WMAC
 +
 +config ATH79_MACH_TL_WA901ND
@@ -1071,7 +1069,7 @@
  endif
 --- a/arch/mips/ath79/Makefile
 +++ b/arch/mips/ath79/Makefile
-@@ -38,9 +38,91 @@ obj-$(CONFIG_ATH79_ROUTERBOOT)		+= route
+@@ -38,9 +38,90 @@ obj-$(CONFIG_ATH79_ROUTERBOOT)		+= route
  #
  # Machines
  #
@@ -1126,7 +1124,6 @@
 +obj-$(CONFIG_ATH79_MACH_TL_MR3020)	+= mach-tl-mr3020.o
 +obj-$(CONFIG_ATH79_MACH_TL_MR3X20)	+= mach-tl-mr3x20.o
 +obj-$(CONFIG_ATH79_MACH_TL_WAX50RE)     += mach-tl-wax50re.o
-+obj-$(CONFIG_ATH79_MACH_TL_WA7210N_V2)  += mach-tl-wa7210n-v2.o
 +obj-$(CONFIG_ATH79_MACH_TL_WA901ND)	+= mach-tl-wa901nd.o
 +obj-$(CONFIG_ATH79_MACH_TL_WA901ND_V2)	+= mach-tl-wa901nd-v2.o
 +obj-$(CONFIG_ATH79_MACH_TL_WDR3500)     += mach-tl-wdr3500.o
